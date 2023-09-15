@@ -3,29 +3,99 @@ import { useState } from "react"
 interface ITab {
     id: number,
     label: string,
-    status: boolean
+    status: boolean,
+    table: React.ReactNode
 }
 interface ITabComponent {
     labelTab: string
     children: React.ReactNode
 }
 export const TabComponent = () => {
+    const [tab1, setTab1] = useState(true)
+    const [tab2, setTab2] = useState(false)
     const [tabs, setTabs] = useState<ITab[]>([
         {
             id: 1,
             label: "Tab 1",
-            status: true
+            status: true,
+            table: <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Product name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Color
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Category
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Price
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Apple MacBook Pro 17"
+                                </th>
+                                <td className="px-6 py-4">
+                                    Silver
+                                </td>
+                                <td className="px-6 py-4">
+                                    Laptop
+                                </td>
+                                <td className="px-6 py-4">
+                                    $2999
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         },
         {
             id: 2,
             label: "Tab 2",
-            status: false
+            status: false,
+            table: <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Product name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Color
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Apple MacBook Pro 17"
+                                </th>
+                                <td className="px-6 py-4">
+                                    Silver
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         }
     ])
     const handleClick = (tab: ITab) => {
         const newTabs = tabs.map((t) => {
             if (t.id === tab.id) {
                 t.status = true;
+
             } else {
                 t.status = false;
             }
@@ -45,47 +115,7 @@ export const TabComponent = () => {
                         </li>
                     )}
                 </ul>
-                {tabs.map((tab) =>
-                    <div className={`${!tab.status && 'hidden'} p-4 rounded-lg bg-gray-50 dark:bg-gray-800`} id="profile">
-                        <div className="relative overflow-x-auto">
-                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
-                                            Product name
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Color
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Category
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Price
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Apple MacBook Pro 17"
-                                        </th>
-                                        <td className="px-6 py-4">
-                                            Silver
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Laptop
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            $2999
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                )}
+                {tabs.map((tab) => tab.status && tab.table)}
             </div>
         </>
     )

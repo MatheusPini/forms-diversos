@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { TableGridEndereco } from "./tables/gridTableEndereco"
 
 interface ITab {
     id: number,
@@ -10,85 +11,29 @@ interface ITabComponent {
     labelTab: string
     children: React.ReactNode
 }
+enum ETipos {
+    cnh = 1,
+    rg = 2,
+    tituloEleitor = 3,
+    cpf = 4,
+    ativo = 5,
+    inativo = 6
+}
+enum ETipoDocs {
+    "CNH" = ETipos.cnh,
+    "RG" = ETipos.rg,
+    "Título de eleitor" = ETipos.tituloEleitor,
+    "CPF" = ETipos.cpf,
+}
 export const TabComponent = () => {
     const [tab1, setTab1] = useState(true)
     const [tab2, setTab2] = useState(false)
     const [tabs, setTabs] = useState<ITab[]>([
         {
             id: 1,
-            label: "Tab 1",
+            label: "Endereços",
             status: true,
-            table: <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
-                <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Product name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Color
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Category
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Price
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
-                                </th>
-                                <td className="px-6 py-4">
-                                    Silver
-                                </td>
-                                <td className="px-6 py-4">
-                                    Laptop
-                                </td>
-                                <td className="px-6 py-4">
-                                    $2999
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        },
-        {
-            id: 2,
-            label: "Tab 2",
-            status: false,
-            table: <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
-                <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Product name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Color
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
-                                </th>
-                                <td className="px-6 py-4">
-                                    Silver
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            table: <TableGridEndereco />
         }
     ])
     const handleClick = (tab: ITab) => {
@@ -111,11 +56,11 @@ export const TabComponent = () => {
                 <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     {tabs.map((tab) =>
                         <li className="mr-2" role="presentation">
-                            <button onClick={() => handleClick(tab)} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg`} id="profile-tab" type="button">{tab.label}/{JSON.stringify(tab.status)}</button>
+                            <button onClick={() => handleClick(tab)} className={`inline-block p-4 border-b-2 ${tab.status ? 'border-gray-300' : 'border-transparent'} rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`} id="profile-tab" type="button">{tab.label}</button>
                         </li>
                     )}
                 </ul>
-                {tabs.map((tab) => tab.status && tab.table)}
+                <TableGridEndereco />
             </div>
         </>
     )

@@ -15,26 +15,44 @@ interface IForm1 {
     last_name: string
     email: string
     phone: string
+    enderecos?: IEndereco[]
+    docs?: IDocs[]
 }
+interface IEndereco {
+    cep: string
+    bairro: string
+    complemento: string
+}
+interface IDocs {
+    tipoDocumento: string
+    nDoc: string
+}
+
 export const Form1 = () => {
     const onSubmit: SubmitHandler<IForm1> = (data) => {
         console.log(data)
     }
-
-    const schema = yup
-        .object({
-            first_name: yup.string().required("Primeiro nome obrigatório"),
-            last_name: yup.string().required("Último nome obrigatório"),
-            email: yup.string().email("E-mail precisa ser válido").required("E-mail é obrigatório"),
-            phone: yup.string().required("Telefone é obrigatório"),
-        })
-        .required()
+    const formSchema = {
+        cep: yup.string().required("cep obrigatorio"),
+        bairro: yup.string().required("bairro obrigatório"),
+        complemento: yup.string().required("complemento obrigatorio"),
+    }
+    const schema = yup.object().shape({
+        first_name: yup.string().required("Primeiro nome obrigatório"),
+        last_name: yup.string().required("Último nome obrigatório"),
+        email: yup.string().email("E-mail precisa ser válido").required("E-mail é obrigatório"),
+        phone: yup.string().required("Telefone é obrigatório"),
+        enderecos: yup.array().of(
+            yup.object().shape(formSchema)
+        ),
+    }).required()
     const methods = useForm<IForm1>({
         defaultValues: {
             first_name: '',
             last_name: '',
             email: '',
             phone: '',
+            enderecos: [{ cep: '78075883', bairro: '', complemento: '' }, { cep: '', bairro: 'jardim aclimação', complemento: '' }],
         },
         resolver: yupResolver(schema)
     })

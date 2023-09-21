@@ -21,11 +21,11 @@ interface IForm1 {
     enderecos: IEndereco[]
     docs: IDocs[]
 }
-export const TableGridEndereco = () => {
+export const TableGridDocs = () => {
     const { formState, control } = useFormContext()
     const { fields, insert, remove } = useFieldArray({
         control: control,
-        name: "enderecos"
+        name: "docs"
     })
     return (
         <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
@@ -34,13 +34,10 @@ export const TableGridEndereco = () => {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                cep
+                                Tipo do documento
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                bairro
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                complemento
+                                N° do documento
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Ações
@@ -51,13 +48,10 @@ export const TableGridEndereco = () => {
                         {fields.map((item, index) =>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item.id}>
                                 <th className="">
-                                    <InputMaskGrid placeholder="CEP..." format={"cep"} name={`enderecos.${index}.cep`} errorMessage={formState?.errors?.enderecos?.[index]?.cep?.message} />
+                                    <InputTextGrid placeholder="Tipo de documento..." name={`docs.${index}.tipoDocumento`} errorMessage={formState?.errors?.docs?.[index]?.tipoDocumento?.message} />
                                 </th>
                                 <th className="">
-                                    <InputTextGrid placeholder="Bairro..." name={`enderecos.${index}.bairro`} errorMessage={formState?.errors?.enderecos?.[index]?.bairro?.message} />
-                                </th>
-                                <th className="">
-                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                    <InputTextGrid placeholder="Documento..." name={`docs.${index}.nDoc`} errorMessage={formState?.errors?.docs?.[index]?.nDoc?.message} />
                                 </th>
                                 <th className="">
                                     <div className="flex gap-2">
@@ -70,9 +64,8 @@ export const TableGridEndereco = () => {
                 </table>
             </div>
             <button onClick={() => insert(2, {
-                cep: '',
-                bairro: '',
-                complemento: ''
+                tipoDocumento: '',
+                nDoc: ''
             })} className="flex w-25 items-center justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" type="button">Remover</button>
         </div >
     )

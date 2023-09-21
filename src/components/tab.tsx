@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { TableGridEndereco } from "./tables/gridTableEndereco"
-
+import { useFormContext } from "react-hook-form"
+import { TableGridDocs } from "./tables/gridTableDocs"
 interface ITab {
     id: number,
     label: string,
@@ -26,14 +27,20 @@ enum ETipoDocs {
     "CPF" = ETipos.cpf,
 }
 export const TabComponent = () => {
-    const [tab1, setTab1] = useState(true)
-    const [tab2, setTab2] = useState(false)
+    const { formState } = useFormContext()
+
     const [tabs, setTabs] = useState<ITab[]>([
         {
             id: 1,
             label: "Endereços",
             status: true,
             table: <TableGridEndereco />
+        },
+        {
+            id: 2,
+            label: "Documentações",
+            status: false,
+            table: <TableGridDocs />
         }
     ])
     const handleClick = (tab: ITab) => {
@@ -52,7 +59,8 @@ export const TabComponent = () => {
     return (
 
         <>
-            <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div className={`mb-4 border-b border-gray-200 dark:border-gray-700`}>
+                {formState.errors.enderecos?.message && <p className="text-red-600">! Pelo menos 1 endereço precisa ser adicionado</p>}
                 <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     {tabs.map((tab) =>
                         <li className="mr-2" role="presentation">
@@ -60,7 +68,7 @@ export const TabComponent = () => {
                         </li>
                     )}
                 </ul>
-                <TableGridEndereco />
+                {tabs.map((tab) => tab.status && tab.table)}
             </div>
         </>
     )

@@ -11,6 +11,8 @@ import { PhoneField } from '../components/inputs/phone';
 import { BtnSubmit } from '../components/buttons/submit';
 import { TabComponent } from '../components/tab';
 import { SelectField } from '../components/inputs/select';
+import { TableGridEndereco } from '../components/tables/gridTableEndereco';
+import { TableGridDocs } from '../components/tables/gridTableDocs';
 interface IForm1 {
     first_name: string
     last_name: string
@@ -61,8 +63,8 @@ export const Form1 = () => {
             last_name: '',
             email: '',
             phone: '',
-            enderecos: [{ bairro: "", cep: "78075883", complemento: "" }],
-            docs: [{ nDoc: "cpf", tipoDocumento: "73082066100" }],
+            enderecos: [],
+            docs: [],
         },
         resolver: yupResolver(schema)
     })
@@ -88,7 +90,22 @@ export const Form1 = () => {
                             <SelectField label='Campo Selecionavel' name='selecionavel' errorMessage={methods.formState?.errors.selecionavel?.message} />
                         </div>
                     </div>
-                    <TabComponent />
+                    <TabComponent tabsComponent={[
+                        {
+                            id: 1,
+                            label: "Endereços",
+                            status: true,
+                            key: 'enderecos',
+                            table: <TableGridEndereco />
+                        },
+                        {
+                            id: 2,
+                            label: "Documentações",
+                            status: false,
+                            key: 'docs',
+                            table: <TableGridDocs />
+                        }
+                    ]} />
                     <BtnSubmit label='Submeter' type='submit' />
                 </form>
             </FormProvider>

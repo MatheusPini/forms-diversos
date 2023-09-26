@@ -45,7 +45,7 @@ export const TableGridDocs = () => {
                         </tr>
                     </thead>
                     <tbody style={{ width: "400px" }}>
-                        {fields.map((item, index) =>
+                        {fields && fields.map((item, index) =>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item.id}>
                                 <th className="">
                                     <InputTextGrid placeholder="Tipo de documento..." name={`docs.${index}.tipoDocumento`} errorMessage={formState?.errors?.docs?.[index]?.tipoDocumento?.message} />
@@ -63,10 +63,10 @@ export const TableGridDocs = () => {
                     </tbody>
                 </table>
             </div>
-            <button onClick={() => insert(2, {
+            <button onClick={() => insert(fields.length, {
                 tipoDocumento: '',
                 nDoc: ''
-            })} className="flex w-25 items-center justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" type="button">Remover</button>
+            })} className="flex w-25 items-center justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" type="button">Adicionar</button>
         </div >
     )
 }

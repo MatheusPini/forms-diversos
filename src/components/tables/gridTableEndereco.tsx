@@ -27,10 +27,11 @@ export const TableGridEndereco = () => {
         control: control,
         name: "enderecos"
     })
+    console.log(fields.length - 1)
     return (
         <div className={` p-4 rounded-lg bg-gray-50 dark:bg-gray-800`}>
-            <div className="relative overflow-x-auto max-h-80 h-80">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-y-scroll">
+            <div className="relative overflow-auto max-h-80 h-80">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-scroll overflow-y-scroll">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">
@@ -48,13 +49,31 @@ export const TableGridEndereco = () => {
                         </tr>
                     </thead>
                     <tbody style={{ width: "400px" }}>
-                        {fields.map((item, index) =>
+                        {fields && fields.map((item, index) =>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={item.id}>
                                 <th className="">
                                     <InputMaskGrid placeholder="CEP..." format={"cep"} name={`enderecos.${index}.cep`} errorMessage={formState?.errors?.enderecos?.[index]?.cep?.message} />
                                 </th>
                                 <th className="">
                                     <InputTextGrid placeholder="Bairro..." name={`enderecos.${index}.bairro`} errorMessage={formState?.errors?.enderecos?.[index]?.bairro?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
+                                </th>
+                                <th className="">
+                                    <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
                                 </th>
                                 <th className="">
                                     <InputTextGrid placeholder="Complemento..." name={`enderecos.${index}.complemento`} errorMessage={formState?.errors?.enderecos?.[index]?.complemento?.message} />
@@ -69,11 +88,11 @@ export const TableGridEndereco = () => {
                     </tbody>
                 </table>
             </div>
-            <button onClick={() => insert(2, {
+            <button onClick={() => insert(fields.length, {
                 cep: '',
                 bairro: '',
                 complemento: ''
-            })} className="flex w-25 items-center justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" type="button">Remover</button>
+            })} className="flex w-25 items-center justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" type="button">Adicionar</button>
         </div >
     )
 }

@@ -1,15 +1,11 @@
 import { useState } from "react"
-import { TableGridEndereco } from "./tables/gridTableEndereco"
-
+import { useFormContext } from "react-hook-form"
 interface ITab {
     id: number,
     label: string,
     status: boolean,
+    key: string,
     table: React.ReactNode
-}
-interface ITabComponent {
-    labelTab: string
-    children: React.ReactNode
 }
 enum ETipos {
     cnh = 1,
@@ -25,17 +21,13 @@ enum ETipoDocs {
     "Título de eleitor" = ETipos.tituloEleitor,
     "CPF" = ETipos.cpf,
 }
-export const TabComponent = () => {
-    const [tab1, setTab1] = useState(true)
-    const [tab2, setTab2] = useState(false)
-    const [tabs, setTabs] = useState<ITab[]>([
-        {
-            id: 1,
-            label: "Endereços",
-            status: true,
-            table: <TableGridEndereco />
-        }
-    ])
+interface ITabComponent {
+    tabsComponent: ITab[]
+}
+export const TabComponent = ({ tabsComponent }: ITabComponent) => {
+    const { formState } = useFormContext()
+
+    const [tabs, setTabs] = useState<ITab[]>(tabsComponent)
     const handleClick = (tab: ITab) => {
         const newTabs = tabs.map((t) => {
             if (t.id === tab.id) {
@@ -49,18 +41,19 @@ export const TabComponent = () => {
 
         setTabs(newTabs);
     };
+    const validateGrid = (key: any) => key?.message || key?.root ? true : false
     return (
 
         <>
-            <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div className={`mb-4 border-b border-gray-200 dark:border-gray-700`}>
                 <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     {tabs.map((tab) =>
                         <li className="mr-2" role="presentation">
-                            <button onClick={() => handleClick(tab)} className={`inline-block p-4 border-b-2 ${tab.status ? 'border-gray-300' : 'border-transparent'} rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`} id="profile-tab" type="button">{tab.label}</button>
+                            <button onClick={() => handleClick(tab)} className={`inline-block p-4 border-b-2 ${tab.status ? validateGrid(formState.errors?.[tab.key]) ? 'border-red-300 text-red-500' : 'border-gray-300 text-gray-500' : 'border-transparent'} rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`} id="profile-tab" type="button">{tab.label}</button>
                         </li>
                     )}
                 </ul>
-                <TableGridEndereco />
+                {tabs.map((tab) => tab.status && tab.table)}
             </div>
         </>
     )

@@ -10,13 +10,17 @@ import { EmailField } from '../components/inputs/email';
 import { PhoneField } from '../components/inputs/phone';
 import { BtnSubmit } from '../components/buttons/submit';
 import { TabComponent } from '../components/tab';
+import { SelectField } from '../components/inputs/select';
+import { TableGridEndereco } from '../components/tables/gridTableEndereco';
+import { TableGridDocs } from '../components/tables/gridTableDocs';
 interface IForm1 {
     first_name: string
     last_name: string
     email: string
     phone: string
-    enderecos?: IEndereco[]
-    docs?: IDocs[]
+    selecionavel?: string
+    enderecos: IEndereco[]
+    docs: IDocs[]
 }
 interface IEndereco {
     cep: string
@@ -37,6 +41,10 @@ export const Form1 = () => {
         bairro: yup.string().required("bairro obrigatório"),
         complemento: yup.string().required("complemento obrigatorio"),
     }
+    const formSchema2 = {
+        tipoDocumento: yup.string().required("tipoDocumento obrigatorio"),
+        nDoc: yup.string().required("nDoc obrigatório"),
+    }
     const schema = yup.object().shape({
         first_name: yup.string().required("Primeiro nome obrigatório"),
         last_name: yup.string().required("Último nome obrigatório"),
@@ -44,7 +52,10 @@ export const Form1 = () => {
         phone: yup.string().required("Telefone é obrigatório"),
         enderecos: yup.array().of(
             yup.object().shape(formSchema)
-        ),
+        ).min(1),
+        docs: yup.array().of(
+            yup.object().shape(formSchema2)
+        ).min(1),
     }).required()
     const methods = useForm<IForm1>({
         defaultValues: {
@@ -52,7 +63,8 @@ export const Form1 = () => {
             last_name: '',
             email: '',
             phone: '',
-            enderecos: [{ cep: '78075883', bairro: '', complemento: '' }, { cep: '', bairro: 'jardim aclimação', complemento: '' }],
+            enderecos: [],
+            docs: [],
         },
         resolver: yupResolver(schema)
     })
@@ -74,9 +86,26 @@ export const Form1 = () => {
                         <div>
                             <PhoneField label='N° de Telefone' name='phone' errorMessage={methods.formState?.errors.phone?.message} />
                         </div>
+                        <div>
+                            <SelectField label='Campo Selecionavel' name='selecionavel' errorMessage={methods.formState?.errors.selecionavel?.message} />
+                        </div>
                     </div>
-
-                    <TabComponent />
+                    <TabComponent tabsComponent={[
+                        {
+                            id: 1,
+                            label: "Endereços",
+                            status: true,
+                            key: 'enderecos',
+                            table: <TableGridEndereco />
+                        },
+                        {
+                            id: 2,
+                            label: "Documentações",
+                            status: false,
+                            key: 'docs',
+                            table: <TableGridDocs />
+                        }
+                    ]} />
                     <BtnSubmit label='Submeter' type='submit' />
                 </form>
             </FormProvider>
